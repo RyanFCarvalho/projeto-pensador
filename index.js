@@ -9,9 +9,12 @@ const { request } = require('http')
 const { response } = require('express')
 const { nextTick } = require('process')
 
-//Models
+// Models
 const User = require('./models/User')
 const Thought = require('./models/Thought')
+
+// Importando as rotas
+const thoughtsRouters = require('./routes/thoughtsRouters')
 
 const hbsPartials = expHandlebars.create({ partialsDir: ['views/partials'] })
 const app = express()
@@ -38,8 +41,8 @@ app.use(session({
   }),
   cookie: {
     secure: false,
-    maxAge: 360000,
-    expires: new Date(Date.now() + 360000),
+    maxAge: 86400,
+    expires: new Date(Date.now() + 86400),
     httpOnly: true
   }
 }))
@@ -57,6 +60,9 @@ app.use((request, response, next)=>{
   }
   next()
 })
+
+// Aplicando as rotas Thoughts
+app.use('/thoughts', thoughtsRouters)
 
 connection
   .sync()
