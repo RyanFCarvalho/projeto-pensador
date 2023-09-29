@@ -9,6 +9,10 @@ const { request } = require('http')
 const { response } = require('express')
 const { nextTick } = require('process')
 
+//Models
+const User = require('./models/User')
+const Thought = require('./models/Thought')
+
 const hbsPartials = expHandlebars.create({ partialsDir: ['views/partials'] })
 const app = express()
 
@@ -47,13 +51,12 @@ app.use(flash())
 app.use(express.static('public'))
 
 // Middleware para armazenar sessões na resposta
-app.use((request, response, nextT)=>{
+app.use((request, response, next)=>{
   if(request.session.userid){
     response.locals.session = request.session
   }
+  next()
 })
-
-
 
 connection
   .sync()
