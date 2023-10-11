@@ -1,1 +1,12 @@
 <h1>Todos os Pensamentos</h1>
+{{#each thoughts}}
+<div class="thought">
+  {{#with this}}
+  <h2>"{{title}}"</h2>
+  <span class="author">
+    <a class="authorLink" href=""></a>
+  </span>
+  {{/with}}
+</div>
+{{/each}}
+

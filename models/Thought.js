@@ -8,7 +8,8 @@ const Thought = db.define('Thought', {
     primaryKey: true,
     type: DataTypes.INTEGER,
     allowNull: false,
-    require: true
+    require: true,
+    autoIncrement: true
   },
   title: {
     type: DataTypes.STRING,

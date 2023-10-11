@@ -13,8 +13,12 @@ const { nextTick } = require('process')
 const User = require('./models/User')
 const Thought = require('./models/Thought')
 
+// Importando controladores responsáveis pela páginas comuns/home
+const ThoughtsController = require('./controllers/ThoughtsController')
+
 // Importando as rotas
 const thoughtsRouters = require('./routes/thoughtsRouters')
+const authsRouters = require('./routes/authsRouters')
 
 const hbsPartials = expHandlebars.create({ partialsDir: ['views/partials'] })
 const app = express()
@@ -55,7 +59,7 @@ app.use(express.static('public'))
 
 // Middleware para armazenar sessões na resposta
 app.use((request, response, next)=>{
-  if(request.session.userid){
+  if(request.session.userId){
     response.locals.session = request.session
   }
   next()
@@ -63,6 +67,9 @@ app.use((request, response, next)=>{
 
 // Aplicando as rotas Thoughts
 app.use('/thoughts', thoughtsRouters)
+app.use('/', authsRouters)
+
+app.get('/', ThoughtsController.showThoughts)
 
 connection
   .sync()
